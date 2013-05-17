@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+@import "compass";
+
+html,
+body{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font: 1em/1.5 sans-serif;
+    background-color: #fff;
+    color: #333;
+    height: 100% !important;
+}
+
+label{
+    display: block;
+}
+
+.theCombo{
+    $padding: 8px;
+    $paddingRight: 40px;
+    $totalWidth: 140px;
+    @include ellipsis;
+    @include box-sizing(border-box);
+    width: $totalWidth;
+    padding: $padding;
+    padding-right: $paddingRight;
+    color: white;
+    cursor: pointer;
+    background:{
+        image: image-url('down.png');
+        repeat: no-repeat;
+        position: 95% 50%;
+        color: green;
+    };
+}
