@@ -1,5 +1,5 @@
 /**
- * theCombo
+ * jquery.theCombo.js
  * Thiago Lagden | @thiagolagden | lagden@gmail.com
  * jQuery plugin
  */
