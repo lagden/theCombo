@@ -1,7 +1,7 @@
 The Combo
 =========
 
-jQuery plugin for Customize the `<select>` tag.
+jQuery plugin for **customize** the `<select>` tag.
 
     See example!!!
 
