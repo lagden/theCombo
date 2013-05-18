@@ -1,9 +1,0 @@
-{
-  "name": "jquery-theCombo",
-  "version": "0.1.0",
-  "description": "Customize the <select> tag",
-  "main": "jquery.thecombo.js",
-  "dependencies": {
-    "jquery": ">=1.5"
-  }
-}
