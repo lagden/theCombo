@@ -36,7 +36,7 @@
                 this.$span
                 .attr("class", this.$element.attr("class"))
                 .css({
-                    'width': this.element.clientWidth + 'px'
+                      'width': this.element.clientWidth + 'px'
                     , 'top': this.element.offsetTop + 'px'
                     , 'left': this.element.offsetLeft + 'px'
                     , 'position': 'absolute'
@@ -52,10 +52,15 @@
             if(frm.length === 1)
             {
                 frm
-                .on('reset', {"el": this.$element, "eventName": this._name}, function(ev){
-                    ev.data.el.val('').trigger('change.'+ ev.data.eventName);
+                .on('reset', {"that": this}, function(ev) {
+                    ev.data.that.reset();
                 });
             }
+        }
+        , reset: function() {
+            var el = this.$element.find('option:eq(0)');
+            el.get(0).selected = true;
+            this.$span.text(el.text());
         }
         , change: function(ev) {
             ev.data.sp.text(ev.data.el.find('option:selected').text());
