@@ -55,9 +55,8 @@
                     'height': this.$span.get(0).clientHeight + 'px'
                 })
                 .on('change.' + this._name, {
-                    "sp": this.$span,
-                    "el": this.$element
-                }, this.change);
+                    "that": this
+                }, this._change);
 
             var frm = this.$element.parents('form:eq(0)');
             if (frm.length === 1) {
@@ -74,8 +73,12 @@
             el.get(0).selected = true;
             this.$span.text(el.text());
         },
-        change: function(ev) {
-            ev.data.sp.text(ev.data.el.find('option:selected').text());
+        _change: function(ev) {
+            ev.data.that.change();
+        },
+        change: function() {
+            this.$span.text(this.$element.find('option:selected').text());
+            console.log('qwe');
         },
         destroy: function() {
             this.$element
