@@ -4,7 +4,7 @@
  * jQuery plugin
  */
 
-;(function(window) {
+;(function(window, CSS) {
 
     'use strict';
 
@@ -14,6 +14,14 @@
             theCss: false
         };
 
+        var supportsWebkitAppearance;
+        try{
+            supportsWebkitAppearance = window.CSS.supports("-webkit-appearance", "none");
+        }
+        catch(e){
+            supportsWebkitAppearance = false;
+        }
+
     function Plugin(element, options) {
         this.element = element;
         this.$element = $(element);
@@ -21,7 +29,9 @@
         this.options = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
-        this.init();
+        this.support = supportsWebkitAppearance;
+        if(!supportsWebkitAppearance)
+            this.init();
     }
 
     Plugin.prototype = {
@@ -30,33 +40,21 @@
                 this.stylezando();
         },
         stylezando: function() {
-            this.$span = $('<span></span>');
             var options = this.$element.find('option');
             var title = (options.filter(":selected").val() != '') ? options.filter(":selected").text() : options.eq(0).text();
-
+            this.$span = $('<span>');
+            this.$span = this.reposition().html(title);
             this.$element
-                .after(
-                    this.$span
-                    .attr("class", this.$element.attr("class"))
-                    .css({
-                        'width': this.element.clientWidth + 'px',
-                        'top': this.element.offsetTop + 'px',
-                        'left': this.element.offsetLeft + 'px',
-                        'position': 'absolute',
-                        'zIndex': 1
-                    })
-                    .html(title)
-                )
-                .addClass(this.options.theCss)
-                .css({
-                    'position': 'relative',
-                    'opacity': 0,
-                    'zIndex': 2,
-                    'height': this.$span.get(0).clientHeight + 'px'
-                })
-                .on('change.' + this._name, {
-                    "that": this
-                }, this._change);
+            .after(this.$span)
+            .addClass(this.options.theCss)
+            .css({
+                'position': 'relative',
+                'opacity': 0,
+                'zIndex': 2
+            })
+            .on('change.' + this._name, {
+                "that": this
+            }, this._change);
 
             var frm = this.$element.parents('form:eq(0)');
             if (frm.length === 1) {
@@ -80,6 +78,25 @@
             this.$span.text(this.$element.find('option:selected').text());
             console.log('qwe');
         },
+        reposition: function(){
+            var offsetElement = this.$element.offset();
+            this.$span
+            .attr("class", this.$element.attr("class"))
+            .css({
+                // 'width': this.$element.width() + 'px',
+                'top': offsetElement.top + 'px',
+                'left': offsetElement.left + 'px',
+                'position': 'absolute',
+                'zIndex': 1
+            });
+            return this.$span;
+        },
+        hide: function(){
+            this.$span.hide();
+        },
+        show: function(){
+            this.$span.show();
+        },
         destroy: function() {
             this.$element
                 .removeClass(this.options.theCss)
@@ -98,19 +115,19 @@
         var args = arguments;
         if (options === undefined || typeof options === 'object') {
             return this.each(function() {
-                if (!$.data(this, "plugin_" + pluginName))
-                    $.data(this, "plugin_" + pluginName, new Plugin(this, options));
+                if (!$.data(this, pluginName))
+                    $.data(this, pluginName, new Plugin(this, options));
             });
         } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
             var returns;
 
             this.each(function() {
-                var instance = $.data(this, 'plugin_' + pluginName);
+                var instance = $.data(this, pluginName);
                 if (instance instanceof Plugin && typeof instance[options] === 'function')
                     returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
 
                 if (options === 'destroy')
-                    $.data(this, 'plugin_' + pluginName, null);
+                    $.data(this, pluginName, null);
             });
 
             return returns !== undefined ? returns : this;

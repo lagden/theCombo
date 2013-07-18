@@ -1,0 +1,52 @@
+.theCombo {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    -webkit-background-clip: padding;
+    -moz-background-clip: padding;
+    background-clip: padding-box;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    -ms-border-radius: 0;
+    -o-border-radius: 0;
+    border-radius: 0;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-color: green;
+    background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAKCAMAAACKYC6uAAAAPFBMVEXn6+P3+/L3+/L0+O/3+/L3+/L3+/L3+/L3+/L3+/L3+/L3+/L0+O/n6+Pq7eX3+/IAAAD2+vHz9+73+/KWthK3AAAAEXRSTlP0MXqqRZEIkAlEMnmr8+IRAJig9poAAABUSURBVHjaZY5JDoAwDMQKdF+Tzv//SlMFIcGcYl8cQ58ZusZLoy6Blh5ODSLAwQv6wBBxTqBnoqMDsyxBeV9FvVSiY6yxi7sisw0wVrPaq1r/PXYDHIYJW9eD/FEAAAAASUVORK5CYII=');
+    background-position: right 10px center;
+
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    padding: 0.625rem;
+    padding-right: 20px;
+    outline: none;
+    border: none;
+
+    min-width: 50px;
+    min-width: 3.125rem;
+    width: 180px;
+    width: 11.25rem;
+    height: 45px;
+    height: 2.813rem;
+
+    vertical-align: middle;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+
+    font-size: 16px;
+    font-size: 1rem;
+}
