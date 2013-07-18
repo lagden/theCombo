@@ -4,7 +4,7 @@
  * jQuery plugin
  */
 
-;(function(window, CSS) {
+;(function(window) {
 
     'use strict';
 
@@ -83,7 +83,6 @@
             this.$span
             .attr("class", this.$element.attr("class"))
             .css({
-                // 'width': this.$element.width() + 'px',
                 'top': offsetElement.top + 'px',
                 'left': offsetElement.left + 'px',
                 'position': 'absolute',

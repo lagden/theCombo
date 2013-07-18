@@ -1,21 +1,24 @@
 {
-    "name": "jquery.theCombo.js",
-    "description": "Customize the <select> tag",
-    "version": "0.3.0",
-    "author": "Thiago Lagden",
-    "main": [
-        "jquery.theCombo.js",
-        "jquery.theCombo.css"
-    ],
-    "keyword": [
-        "customize",
-        "combo",
-        "select"
-    ],
-    "ignore": [
-        "example"
-    ],
-    "devDependencies": {
-        "jquery": ">=1.7"
-    }
+  "name": "jquery.theCombo.js",
+  "description": "Customize the <select> tag",
+  "version": "0.3.0",
+  "author": "Thiago Lagden",
+  "main": [
+    "jquery.theCombo.js",
+    "jquery.theCombo.css"
+  ],
+  "keyword": [
+    "customize",
+    "combo",
+    "select"
+  ],
+  "ignore": [
+    "example"
+  ],
+  "devDependencies": {
+    "jquery": ">=1.7"
+  },
+  "dependencies": {
+    "box-sizing-polyfill": "latest"
+  }
 }
