@@ -29,9 +29,7 @@
         this.options = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
-        this.support = supportsWebkitAppearance;
-        if(!supportsWebkitAppearance)
-            this.init();
+        this.init();
     }
 
     Plugin.prototype = {
@@ -46,7 +44,7 @@
             this.$span = this.reposition().html(title);
             this.$element
             .after(this.$span)
-            .addClass(this.options.theCss)
+            .addClass(this.options.theCss + ' ')
             .css({
                 'position': 'relative',
                 'opacity': 0,
@@ -76,16 +74,14 @@
         },
         change: function() {
             this.$span.text(this.$element.find('option:selected').text());
-            console.log('qwe');
         },
         reposition: function(){
             var offsetElement = this.$element.offset();
             this.$span
             .attr("class", this.$element.attr("class"))
             .css({
-                'top': offsetElement.top + 'px',
-                'left': offsetElement.left + 'px',
-                'position': 'absolute',
+                'position': 'relative',
+                'margin-left': -this.$element.outerWidth(true) + 'px',
                 'zIndex': 1
             });
             return this.$span;
@@ -112,24 +108,28 @@
 
     $.fn[pluginName] = function(options) {
         var args = arguments;
-        if (options === undefined || typeof options === 'object') {
-            return this.each(function() {
-                if (!$.data(this, pluginName))
-                    $.data(this, pluginName, new Plugin(this, options));
-            });
-        } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
-            var returns;
+        if(!supportsWebkitAppearance)
+        {
+            if (options === undefined || typeof options === 'object') {
+                return this.each(function() {
+                    if (!$.data(this, pluginName))
+                        $.data(this, pluginName, new Plugin(this, options));
+                });
+            } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
+                var returns;
 
-            this.each(function() {
-                var instance = $.data(this, pluginName);
-                if (instance instanceof Plugin && typeof instance[options] === 'function')
-                    returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
+                this.each(function() {
+                    var instance = $.data(this, pluginName);
+                    if (instance instanceof Plugin && typeof instance[options] === 'function')
+                        returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
 
-                if (options === 'destroy')
-                    $.data(this, pluginName, null);
-            });
+                    if (options === 'destroy')
+                        $.data(this, pluginName, null);
+                });
 
-            return returns !== undefined ? returns : this;
+                return returns !== undefined ? returns : this;
+            }
         }
+        return null;
     };
 })(window);

@@ -1,7 +1,7 @@
 {
   "name": "jquery.theCombo.js",
   "description": "Customize the <select> tag",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": "Thiago Lagden",
   "main": [
     "jquery.theCombo.js",
