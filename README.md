@@ -2,7 +2,7 @@
 
 jQuery plugin for **customize** the `<select>` tag.
 
-[See example!!!](example/index.html)
+[See example!!!](https://github.com/lagden/theCombo/tree/master/example)
 
 ## Installation
 
