@@ -4,23 +4,24 @@
  * jQuery plugin
  */
 
-;(function(window) {
+;
+(function(window) {
 
     'use strict';
 
     var $ = window.jQuery,
         pluginName = "theCombo",
         defaults = {
-            theCss: false
+            theCss: "theCombo"
         };
 
-        var supportsWebkitAppearance;
-        try{
-            supportsWebkitAppearance = window.CSS.supports("-webkit-appearance", "none");
-        }
-        catch(e){
-            supportsWebkitAppearance = false;
-        }
+    var supportsWebkitAppearance = false;
+
+    try {
+        supportsWebkitAppearance = window.CSS.supports("-webkit-appearance", "none");
+    } catch (e) {
+        supportsWebkitAppearance = false;
+    }
 
     function Plugin(element, options) {
         this.element = element;
@@ -40,28 +41,28 @@
         stylezando: function() {
             var options = this.$element.find('option');
             var title = (options.filter(":selected").val() != '') ? options.filter(":selected").text() : options.eq(0).text();
-            this.$span = $('<span>');
-            this.$span = this.reposition().html(title);
+            this.$span = $('<span>' + title + '</span>').addClass(this.options.theCss);
             this.$element
-            .after(this.$span)
-            .addClass(this.options.theCss + ' ')
-            .css({
-                'position': 'relative',
-                'opacity': 0,
-                'zIndex': 2
-            })
-            .on('change.' + this._name, {
-                "that": this
-            }, this._change);
+                .css({
+                    "top": 0,
+                    "left": 0,
+                    "opacity": 0,
+                    "position": "absolute"
+                })
+                .on('change.' + this._name, {
+                    "that": this
+                }, this.change)
+                .after(this.$span);
+
+            this.$element.appendTo(this.$span);
 
             var frm = this.$element.parents('form:eq(0)');
             if (frm.length === 1) {
-                frm
-                    .on('reset', {
-                        "that": this
-                    }, function(ev) {
-                        ev.data.that.reset();
-                    });
+                frm.on('reset', {
+                    "that": this
+                }, function(ev) {
+                    ev.data.that.reset();
+                });
             }
         },
         reset: function() {
@@ -69,27 +70,14 @@
             el.get(0).selected = true;
             this.$span.text(el.text());
         },
-        _change: function(ev) {
-            ev.data.that.change();
+        change: function(ev) {
+            var that = ev.data.that;
+            that.$span.text(that.$element.find('option:selected').text());
         },
-        change: function() {
-            this.$span.text(this.$element.find('option:selected').text());
-        },
-        reposition: function(){
-            var offsetElement = this.$element.offset();
-            this.$span
-            .attr("class", this.$element.attr("class"))
-            .css({
-                'position': 'relative',
-                'margin-left': -this.$element.outerWidth(true) + 'px',
-                'zIndex': 1
-            });
-            return this.$span;
-        },
-        hide: function(){
+        hide: function() {
             this.$span.hide();
         },
-        show: function(){
+        show: function() {
             this.$span.show();
         },
         destroy: function() {
@@ -108,8 +96,7 @@
 
     $.fn[pluginName] = function(options) {
         var args = arguments;
-        if(!supportsWebkitAppearance)
-        {
+        if (!supportsWebkitAppearance) {
             if (options === undefined || typeof options === 'object') {
                 return this.each(function() {
                     if (!$.data(this, pluginName))
