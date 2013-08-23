@@ -2,7 +2,7 @@
 
 jQuery plugin for **customize** the `<select>` tag.
 
-    See example!!!
+[See example!!!](example/index.html)
 
 ## Installation
 
