@@ -5,7 +5,7 @@
  */
 
 ;
-(function(window) {
+(function(window, navigator) {
 
     'use strict';
 
@@ -20,7 +20,7 @@
     try {
         supportsWebkitAppearance = window.CSS.supports("-webkit-appearance", "none");
     } catch (e) {
-        supportsWebkitAppearance = false;
+        supportsWebkitAppearance = (navigator.userAgent.indexOf('WebKit') > -1);
     }
 
     function Plugin(element, options) {
@@ -117,4 +117,4 @@
         }
         return null;
     };
-})(window);
+})(window, navigator);
