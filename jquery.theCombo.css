@@ -12,10 +12,6 @@
     box-sizing: border-box;
     *behavior: url('../bower_components/box-sizing-polyfill/boxsizing.htc');
 
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    -ms-border-radius: 0;
-    -o-border-radius: 0;
     border-radius: 0;
 
     white-space: nowrap;
@@ -32,7 +28,6 @@
     color: white;
     cursor: pointer;
     padding: 10px;
-    padding: 0.625rem;
     padding-right: 20px;
     outline: none;
     border: none;
@@ -40,9 +35,8 @@
     position: relative;
 
     width: 180px;
-    width: 11.25rem;
     height: 45px;
-    height: 2.813rem;
+    line-height: 25px;
 
     vertical-align: middle;
     display: inline-block;
@@ -50,5 +44,4 @@
     *zoom: 1;
 
     font-size: 16px;
-    font-size: 1rem;
 }
