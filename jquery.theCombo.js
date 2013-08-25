@@ -27,6 +27,7 @@
         this.element = element;
         this.$element = $(element);
         this.$span = null;
+        this.textNode = null;
         this.options = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
@@ -56,6 +57,8 @@
 
             this.$element.appendTo(this.$span);
 
+            this.textNode = this.$span.get(0).childNodes[0];
+
             var frm = this.$element.parents('form:eq(0)');
             if (frm.length === 1) {
                 frm.on('reset', {
@@ -68,17 +71,11 @@
         reset: function() {
             var el = this.$element.find('option:eq(0)');
             el.get(0).selected = true;
-            this.$span.text(el.text());
+            this.textNode.nodeValue = el.text();
         },
         change: function(ev) {
             var that = ev.data.that;
-            that.$span.text(that.$element.find('option:selected').text());
-        },
-        hide: function() {
-            this.$span.hide();
-        },
-        show: function() {
-            this.$span.show();
+            that.textNode.nodeValue = that.$element.find('option:selected').text();
         },
         destroy: function() {
             this.$element
