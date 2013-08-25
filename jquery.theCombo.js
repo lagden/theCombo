@@ -48,7 +48,8 @@
                     "top": 0,
                     "left": 0,
                     "opacity": 0,
-                    "position": "absolute"
+                    "position": "absolute",
+                    "width": "100%"
                 })
                 .on('change.' + this._name, {
                     "that": this
