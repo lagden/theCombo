@@ -4,31 +4,25 @@
  * jQuery plugin
  */
 
-;
-(function(window, navigator) {
+;(function(window, navigator, document) {
 
-    'use strict';
+    "use strict";
 
     var $ = window.jQuery,
+        doc = document,
         pluginName = "theCombo",
         defaults = {
             theCss: "theCombo"
         };
 
-    var supportsWebkitAppearance = false;
-
-    try {
-        supportsWebkitAppearance = window.CSS.supports("-webkit-appearance", "none");
-    } catch (e) {
-        supportsWebkitAppearance = (navigator.userAgent.indexOf('WebKit') > -1);
-    }
+    var hasWebkit = Boolean(navigator.userAgent.indexOf('WebKit') > -1);
 
     function Plugin(element, options) {
         this.element = element;
         this.$element = $(element);
         this.$span = null;
         this.textNode = null;
-        this.options = $.extend({}, defaults, options);
+        this.opts = $.extend({}, defaults, options);
         this._defaults = defaults;
         this._name = pluginName;
         this.init();
@@ -37,12 +31,17 @@
     Plugin.prototype = {
         init: function() {
             if (this.$element.is('select'))
-                this.stylezando();
+                this.custom();
         },
-        stylezando: function() {
+        custom: function() {
             var options = this.$element.find('option');
             var title = (options.filter(":selected").val() != '') ? options.filter(":selected").text() : options.eq(0).text();
-            this.$span = $('<span>' + title + '</span>').addClass(this.options.theCss);
+            this.textNode = doc.createTextNode(title);
+
+            var span = doc.createElement('span');
+            span.className = this.opts.theCss;
+            span.appendChild(this.textNode);
+            this.$span = $(span);
             this.$element
                 .css({
                     "top": 0,
@@ -51,54 +50,40 @@
                     "position": "absolute",
                     "width": "100%"
                 })
-                .on('change.' + this._name, {
-                    "that": this
-                }, this.change)
-                .after(this.$span);
+                .on('change.' + this._name, {"that": this}, this.change);
 
-            this.$element.appendTo(this.$span);
-
-            this.textNode = this.$span.get(0).childNodes[0];
+            this.$element
+                .after(this.$span)
+                .appendTo(this.$span);
 
             var frm = this.$element.parents('form:eq(0)');
-            if (frm.length === 1) {
-                frm.on('reset', {
-                    "that": this
-                }, function(ev) {
-                    ev.data.that.reset();
-                });
-            }
+            if (frm.length === 1)
+                frm.on('reset', {"that": this}, this.reset);
         },
-        reset: function() {
-            var el = this.$element.find('option:eq(0)');
+        reset: function(e) {
+            e = e || false;
+            var that;
+            if(e)
+                that = e.data.that;
+            else
+                that = this;
+            var el = that.$element.find('option:eq(0)');
             el.get(0).selected = true;
-            this.textNode.nodeValue = el.text();
+            that.textNode.nodeValue = el.text();
         },
-        change: function(ev) {
-            var that = ev.data.that;
+        change: function(e) {
+            var that = e.data.that;
             that.textNode.nodeValue = that.$element.find('option:selected').text();
-        },
-        destroy: function() {
-            this.$element
-                .removeClass(this.options.theCss)
-                .off('change.' + this._name)
-                .css({
-                    'position': '',
-                    'opacity': '',
-                    'zIndex': ''
-                })
-                .next('span:eq(0)').remove();
-            this.$span = null;
         }
     };
 
     $.fn[pluginName] = function(options) {
         var args = arguments;
-        if (!supportsWebkitAppearance) {
+        if (hasWebkit === false) {
             if (options === undefined || typeof options === 'object') {
-                return this.each(function() {
-                    if (!$.data(this, pluginName))
-                        $.data(this, pluginName, new Plugin(this, options));
+                return this.each(function(idx, element) {
+                    if (!$.data(element, pluginName))
+                        $.data(element, pluginName, new Plugin(element, options));
                 });
             } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
                 var returns;
@@ -107,9 +92,6 @@
                     var instance = $.data(this, pluginName);
                     if (instance instanceof Plugin && typeof instance[options] === 'function')
                         returns = instance[options].apply(instance, Array.prototype.slice.call(args, 1));
-
-                    if (options === 'destroy')
-                        $.data(this, pluginName, null);
                 });
 
                 return returns !== undefined ? returns : this;
@@ -117,4 +99,5 @@
         }
         return null;
     };
-})(window, navigator);
+
+})(window, navigator, document);
