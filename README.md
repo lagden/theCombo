@@ -3,7 +3,7 @@
 jQuery plugin for **customize** the `<select>` tag.
 If you are using a Webkit browser, the plugin will not initialize, because doesn't need this.
 
-[See example!!!](https://lagden.github.io/theCombo)
+[See example!!!](http://lagden.github.io/theCombo)
 
 ## Installation
 
