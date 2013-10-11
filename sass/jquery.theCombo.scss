@@ -1,0 +1,33 @@
+@import "compass";
+
+.theCombo{
+    @include appearance(none);
+    @include background-clip(padding-box);
+    @include border-radius(0);
+    @include box-sizing(border-box);
+    *behavior: url('../bower_components/box-sizing-polyfill/boxsizing.htc');
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    padding-right: 20px;
+    outline: none;
+    border: 2px solid black;
+    width: 180px;
+    height: 45px;
+    line-height: 25px;
+    font-size: 16px;
+    vertical-align: middle;
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    background:{
+        color: #B1B1B1;
+        image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAKCAMAAACdQr5nAAAAPFBMVEXn6+P3+/L3+/L0+O/3+/L3+/L3+/L3+/L3+/L3+/L3+/L3+/L0+O/n6+Pq7eX3+/IAAAD2+vHz9+73+/KWthK3AAAAEXRSTlP0MXqqRZEIkAlEMnmr8+IRAJig9poAAABYSURBVHjadY5JDoAwDAMLdF+T+v9/hYIqFFDnFHtysKIlio72ppaFQgkzhAKpwM6O0zqGVHsHaiTaKtCTUBTvLj0fUpE3jAs2nqQa6AIo/R0/V+dGP7XkBDn1D5sPSFgFAAAAAElFTkSuQmCC');
+        repeat: no-repeat;
+        position: right center;
+    }
+}

@@ -12,10 +12,8 @@
         doc = document,
         pluginName = "theCombo",
         defaults = {
-            theCss: "theCombo"
+            theCss: null
         };
-
-    var hasWebkit = Boolean(navigator.userAgent.indexOf('WebKit') > -1);
 
     function Plugin(element, options) {
         this.element = element;
@@ -34,14 +32,16 @@
                 this.custom();
         },
         custom: function() {
-            var options = this.$element.find('option');
-            var title = (options.filter(":selected").val() != '') ? options.filter(":selected").text() : options.eq(0).text();
-            this.textNode = doc.createTextNode(title);
-
+            // Create the custom element
+            this.textNode = doc.createTextNode("");
             var span = doc.createElement('span');
-            span.className = this.opts.theCss;
+            span.className = this.element.className;
             span.appendChild(this.textNode);
             this.$span = $(span);
+            if(this.opts.theCss)
+                this.$span.addClass(this.opts.theCss);
+
+            // Some style and listener change
             this.$element
                 .css({
                     "top": 0,
@@ -50,40 +50,39 @@
                     "position": "absolute",
                     "width": "100%"
                 })
-                .on('change.' + this._name, {"that": this}, this.change);
-
-            this.$element
+                .on('change.' + this._name, {"that": this}, _onChange)
                 .after(this.$span)
                 .appendTo(this.$span);
 
+            // Listener Form Reset
             var frm = this.$element.parents('form:eq(0)');
             if (frm.length === 1)
-                frm.on('reset', {"that": this}, this.reset);
-        },
-        reset: function(e) {
-            e = e || false;
-            var that;
-            if(e)
-                that = e.data.that;
-            else
-                that = this;
-            var el = that.$element.find('option:eq(0)');
-            el.get(0).selected = true;
-            that.textNode.nodeValue = el.text();
-        },
-        change: function(e) {
-            var that = e.data.that;
-            that.textNode.nodeValue = that.$element.find('option:selected').text();
+                frm.on('reset', {"that": this}, _onReset);
+
+            // Verify initial status
+            _onChange({"data": {"that": this}});
         }
     };
 
+    // Private methods
+    function _onReset(e) {
+        var that = e.data.that;
+        that.textNode.nodeValue = that.$element.find('option:eq(0)').text();
+    }
+
+    function _onChange(e) {
+        var that = e.data.that;
+        that.textNode.nodeValue = that.$element.find('option:selected').text();
+    }
+
     $.fn[pluginName] = function(options) {
         var args = arguments;
+        var hasWebkit = Boolean(navigator.userAgent.indexOf('WebKit') > -1);
         if (hasWebkit === false) {
             if (options === undefined || typeof options === 'object') {
-                return this.each(function(idx, element) {
-                    if (!$.data(element, pluginName))
-                        $.data(element, pluginName, new Plugin(element, options));
+                return this.each(function() {
+                    if (!$.data(this, pluginName))
+                        $.data(this, pluginName, new Plugin(this, options));
                 });
             } else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
                 var returns;

@@ -21,3 +21,7 @@ label{
     *zoom: 1;
     font-weight: bold;
 }
+
+form > div + div{
+    margin-top: 20px;
+}
