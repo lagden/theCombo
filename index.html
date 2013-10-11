@@ -1,1 +1,33 @@
-My GitHub Page
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Example - theCombo</title>
+    <link rel="stylesheet" type="text/css" href="http://rawgithub.com/lagden/theCombo/master/example/css/screen.css">
+    <link rel="stylesheet" type="text/css" href="http://rawgithub.com/lagden/theCombo/master/jquery.theCombo.css">
+</head>
+<body>
+
+    <h1>Example - theCombo</h1>
+
+    <form action="#theCombo">
+        <div>
+            <label for="theComboExample">Selecione:</label>
+            <select id="theComboExample" class="theCombo">
+                <option value="">Choose...</option>
+                <option value="1">Awesome</option>
+                <option value="2">Yeahhh</option>
+            </select>
+        </div>
+        <div>
+            <button type="reset">Reset Form</button>
+        </div>
+    </form>
+
+    <script>window.jQuery || document.write('<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"><\/script>')</script>
+    <script type="text/javascript" src="http://rawgithub.com/lagden/theCombo/master/jquery.theCombo.js"></script>
+    <script type="text/javascript">
+        $('.theCombo').theCombo();
+    </script>
+</body>
+</html>
