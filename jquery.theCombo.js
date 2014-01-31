@@ -6,11 +6,11 @@
 
 ;(function(window, navigator, document) {
 
-    "use strict";
+    'use strict';
 
     var $ = window.jQuery,
         doc = document,
-        pluginName = "theCombo",
+        pluginName = 'theCombo',
         defaults = {
             theCss: null
         };
@@ -33,7 +33,7 @@
         },
         custom: function() {
             // Create the custom element
-            this.textNode = doc.createTextNode("");
+            this.textNode = doc.createTextNode('');
             var span = doc.createElement('span');
             span.className = this.element.className;
             span.appendChild(this.textNode);
@@ -44,23 +44,23 @@
             // Some style and listener change
             this.$element
                 .css({
-                    "top": 0,
-                    "left": 0,
-                    "opacity": 0,
-                    "position": "absolute",
-                    "width": "100%"
+                    'top': 0,
+                    'left': 0,
+                    'opacity': 0,
+                    'position': 'absolute',
+                    'width': '100%'
                 })
-                .on('change.' + this._name, {"that": this}, _onChange)
+                .on('change.' + this._name, {'that': this}, _onChange)
                 .after(this.$span)
                 .appendTo(this.$span);
 
             // Listener Form Reset
             var frm = this.$element.parents('form:eq(0)');
             if (frm.length === 1)
-                frm.on('reset', {"that": this}, _onReset);
+                frm.on('reset', {'that': this}, _onReset);
 
             // Verify initial status
-            _onChange({"data": {"that": this}});
+            _onChange({'data': {'that': this}});
         }
     };
 
